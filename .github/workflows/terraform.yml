@@ -1,0 +1,46 @@
+name: Terraform workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION : "us-east-1"      
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::093429161426:role/imam #change to reflect your IAM role’s ARN
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Plan Terraform
+        run: terraform plan
+
+      - name: Apply Terraform Changes
+        run: terraform apply -auto-approve
+      
+      #- name: Cleanup Terraform Files
+      # run: terraform destroy -auto-approve
+        
+          
+    
