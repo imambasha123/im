@@ -10,4 +10,7 @@ variable "key_name" {
   description = "Key pair name for SSH access"
 }
 
+variable "region" {
+  description = "defult"
+}
 # Add more variables as needed for other configuration options
