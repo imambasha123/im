@@ -10,7 +10,7 @@ variable "key_name" {
   description = "Key pair name for SSH access"
 }
 
-variable "region" {
-  description = "defult"
+variable "aws_region" {
+  description = "AWS region for resources"
 }
 # Add more variables as needed for other configuration options
